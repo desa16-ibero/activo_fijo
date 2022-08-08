@@ -1,0 +1,86 @@
+{
+  "EXITO": true,
+  "DATOS": [
+    {
+      "NUM_ACTIVO_UIA": "002588",
+      "DESCRIPCION": "PANTALLA PARA PROYECCION MANUAL SERIES 65 DIMS. 18",
+      "MARCA": "BRETFORD",
+      "MODELO": "S/M",
+      "SERIE": "S/S",
+      "NOM_EMP_RESP": "OCHOA SOLACHE FERNANDO LAZARO",
+      "ID_SOLICITUD": 1,
+      "NUM_TIPO": "450"
+    },
+    {
+      "NUM_ACTIVO_UIA": "079379",
+      "DESCRIPCION": "COMPUTADORA HP PRO 6300",
+      "MARCA": "HP",
+      "MODELO": "PRO6300",
+      "SERIE": "MXL3151R08",
+      "NOM_EMP_RESP": "MARTINEZ CURIEL EDGAR",
+      "ID_SOLICITUD": 2,
+      "NUM_TIPO": "100"
+    },
+    {
+      "NUM_ACTIVO_UIA": "001067",
+      "DESCRIPCION": "AMPLIFICADOR DE SONIDO MODELO AG-B3020",
+      "MARCA": "TEAC",
+      "MODELO": "S/M",
+      "SERIE": "31100561",
+      "NOM_EMP_RESP": "AGUILAR RIVERA ARIANE",
+      "ID_SOLICITUD": 3,
+      "NUM_TIPO": "450"
+    },
+    {
+      "NUM_ACTIVO_UIA": "070391",
+      "DESCRIPCION": "MONITOR DE PLASMA DE 65\" PANASONIC ",
+      "MARCA": "PANASONIC",
+      "MODELO": "TH65PF12UK",
+      "SERIE": "LG02450094",
+      "NOM_EMP_RESP": "OCHOA SOLACHE FERNANDO LAZARO",
+      "ID_SOLICITUD": 4,
+      "NUM_TIPO": "450"
+    },
+    {
+      "NUM_ACTIVO_UIA": "092719",
+      "DESCRIPCION": "HP PROBOOK 6470b i7-3540M 14 8GB/500 PC T6F04LT#AB",
+      "MARCA": "HP",
+      "MODELO": "T6F04LT#ABM",
+      "SERIE": "5CG6374WLV",
+      "NOM_EMP_RESP": "PICA RUIZ ANTONIO",
+      "ID_SOLICITUD": 5,
+      "NUM_TIPO": "100"
+    },
+    {
+      "NUM_ACTIVO_UIA": "101632",
+      "DESCRIPCION": "DOCKING STATION HP UNIV USB-C 2UF95AA",
+      "MARCA": "HP",
+      "MODELO": "2UF95AA",
+      "SERIE": "8CJ831B4C0",
+      "NOM_EMP_RESP": "PICA RUIZ ANTONIO",
+      "ID_SOLICITUD": 6,
+      "NUM_TIPO": "100"
+    },
+    {
+      "NUM_ACTIVO_UIA": "087604",
+      "DESCRIPCION": "MONITOR HP V221 21.5 IN COD. E2T08AA",
+      "MARCA": "HP",
+      "MODELO": "V221 21.5 COD",
+      "SERIE": "6CM5110LDH",
+      "NOM_EMP_RESP": "PICA RUIZ ANTONIO",
+      "ID_SOLICITUD": 7,
+      "NUM_TIPO": "100"
+    },
+    {
+      "NUM_ACTIVO_UIA": "098247",
+      "DESCRIPCION": "SWITCH CATALYST 9300 48 PUERTOS MULTIGIG MCA CISCO",
+      "MARCA": "",
+      "MODELO": "",
+      "SERIE": "FCW2144L04K",
+      "NOM_EMP_RESP": "MARTINEZ CURIEL EDGAR",
+      "ID_SOLICITUD": 8,
+      "NUM_TIPO": "150"
+    }
+  ],
+  "MENSAJE": "Correcto"
+}
