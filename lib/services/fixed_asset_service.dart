@@ -12,6 +12,8 @@ import 'package:screenshot/screenshot.dart';
 
 import '../model/fixed_asset.dart';
 import '../rest/Fixed_asset_rest.dart';
+import '../utils/custom_colors.dart';
+import '../utils/routes.dart';
 import '../widgets/custom_dialog.dart';
 import '../widgets/custom_single_table.dart';
 import '../widgets/custom_title.dart';
@@ -20,6 +22,7 @@ class FixedAssetService with ChangeNotifier {
   final FixedAssetRest _api = FixedAssetRest();
 
   bool isLoading = false;
+
   late FixedAsset fixedAsset;
 
   late Map<String, dynamic> mapFixedAsset;
@@ -81,6 +84,7 @@ class FixedAssetService with ChangeNotifier {
   }
 
   openSignature(BuildContext context) {
+    FocusScope.of(context).unfocus();
     final size = MediaQuery.of(context).size;
     showDialog(
       context: context,
@@ -89,6 +93,7 @@ class FixedAssetService with ChangeNotifier {
         return WillPopScope(
           onWillPop: () async => false,
           child: CustomDialog(
+            isCustomDialog: true,
             textCancelButton: 'Cacelar',
             textOkButton: 'Guardar',
             onConfirmBtnTap: () {
@@ -135,24 +140,32 @@ class FixedAssetService with ChangeNotifier {
   makeScreenshot(BuildContext context) {
     if (nameController.text.isNotEmpty && signatureBytes != null) {
       EasyLoading.show();
+      double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+
       screenshotController
-          .captureFromWidget(Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const CustomTitle(title: 'Resumen'),
-          makeTable(mapFixedAsset),
-          const CustomTitle(title: 'Nombre'),
-          Text(
-            nameController.text,
-            style: const TextStyle(fontSize: 18, color: Colors.black),
-          ),
-          const CustomTitle(title: 'Firma'),
-          Image.memory(
-            signatureBytes as Uint8List,
-            fit: BoxFit.cover,
-          ),
-        ],
-      ))
+          .captureFromWidget(
+              Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const CustomTitle(title: 'Resumen'),
+                    makeTable(mapFixedAsset),
+                    const CustomTitle(title: 'Nombre'),
+                    Text(
+                      nameController.text,
+                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                    const CustomTitle(title: 'Firma'),
+                    Image.memory(
+                      signatureBytes as Uint8List,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
+                ),
+              ),
+              pixelRatio: pixelRatio,
+              delay: const Duration(milliseconds: 10))
           .then((capturedImage) async {
         final tempDir = await getTemporaryDirectory();
         File fileSignature = await File(
@@ -165,7 +178,7 @@ class FixedAssetService with ChangeNotifier {
             imgSignature: fileSignature.path,
             name: nameController.text);
         debugPrint(pathEvidence);
-        //_sendFixedAsset(context, fixedAsset);
+        _sendFixedAsset(context, fixedAsset);
       });
     } else {
       CoolAlert.show(
@@ -183,7 +196,41 @@ class FixedAssetService with ChangeNotifier {
     await _api
         .sendFixedAsset(context, fixedAsset)
         .then((dynamic lstResponse) async {
-      if (lstResponse != null) {}
+      if (lstResponse != null) {
+        if (lstResponse['EXITO']) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return WillPopScope(
+                onWillPop: () async => false,
+                child: CustomDialog(
+                  iconEvent: Icons.done,
+                  background: Colors.green[800] as Color,
+                  message: 'Se envió correctamente.',
+                  title: 'Éxito',
+                  textOkButton: 'Continuar',
+                  onConfirmBtnTap: () {
+                    cleanFixedAsset();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        RoutePaths.home, (Route<dynamic> route) => false);
+                  },
+                  isCustomDialog: false,
+                ),
+              );
+            },
+          );
+        } else {
+          CoolAlert.show(
+              context: context,
+              barrierDismissible: false,
+              type: CoolAlertType.warning,
+              text: lstResponse['MENSAJE'],
+              title: 'Alerta',
+              confirmBtnText: 'Cerrar',
+              backgroundColor: Colors.yellow[800] as Color);
+        }
+      }
     }).catchError((Object error) {
       debugPrint(error.toString());
       CoolAlert.show(
@@ -196,6 +243,37 @@ class FixedAssetService with ChangeNotifier {
       );
     });
     EasyLoading.dismiss();
+  }
+
+  cleanFixedAsset() {
+    nameController.clear();
+    signatureBytes = null;
+    showSignature = false;
+    evidence = '';
+  }
+
+  back(BuildContext context) {
+    if (nameController.text.isNotEmpty || showSignature) {
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.confirm,
+        text:
+            'Estas a punto de salir y se perderan los cambios que no se hallan enviado.\n¿Deseas salir? ',
+        title: 'Atención',
+        confirmBtnColor: CustomColors.dartMainColor,
+        confirmBtnText: 'Salir',
+        cancelBtnText: 'Cancelar',
+        backgroundColor: Colors.blue[800] as Color,
+        onConfirmBtnTap: () async {
+          cleanFixedAsset();
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RoutePaths.home, (Route<dynamic> route) => false);
+        },
+      );
+    } else {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          RoutePaths.home, (Route<dynamic> route) => false);
+    }
   }
 
 /*Future<dynamic> showCapturedWidget(

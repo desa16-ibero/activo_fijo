@@ -26,6 +26,8 @@ class FixedAssetRest {
     debugPrint(uri.toString());
     debugPrint(headers.toString());
 
+
+
     final String response =
         await rootBundle.loadString('assets/json/catalog.json');
     final data = await json.decode(response);
@@ -40,7 +42,7 @@ class FixedAssetRest {
     String? device = await Var.getIdentifier();
 
     Map<String, String>? headers = {
-      //'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
       'token': Var.md5Hash(device),
       'id_dispositivo': device as String,
     };
@@ -51,9 +53,10 @@ class FixedAssetRest {
       'img_firma': await MultipartFile.fromFile(
           fixedAsset.imgSignature as String,
           filename: 'signature.jpg'),
-      'img_evidencia': await MultipartFile.fromFile(
-          fixedAsset.imgEvidence as String,
-          filename: 'evidence.jpg'),
+      'img_evidencia': fixedAsset.imgEvidence != ''
+          ? await MultipartFile.fromFile(fixedAsset.imgEvidence as String,
+              filename: 'evidence.jpg')
+          : '',
       'id_solicitud': fixedAsset.idRequest,
       'num_activo_uia': fixedAsset.activeNumUia,
       'num_cia': '100',
@@ -63,6 +66,7 @@ class FixedAssetRest {
 
     debugPrint(uri.toString());
     debugPrint(headers.toString());
+    return {'EXITO': true, 'MENSAJE': 'Guardado'};
 
     return _netUtil.multipart(
         context: context, url: uri, formData: formData, headers: headers);

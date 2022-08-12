@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../utils/custom_colors.dart';
 
 class CustomDialog extends StatelessWidget {
+  final bool isCustomDialog;
   final VoidCallback? onConfirmBtnTap, onCancelBtnTap;
   final String? textOkButton, textCancelButton;
-  final Widget content;
+  final Widget? content;
+
+  final Color? background;
+  final IconData? iconEvent;
+  final String? title, message;
 
   const CustomDialog({
     Key? key,
@@ -13,7 +18,12 @@ class CustomDialog extends StatelessWidget {
     this.textOkButton,
     this.textCancelButton,
     this.onCancelBtnTap,
-    required this.content,
+    this.content,
+    required this.isCustomDialog,
+    this.background,
+    this.iconEvent,
+    this.title,
+    this.message,
   }) : super(key: key);
 
   @override
@@ -23,7 +33,53 @@ class CustomDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      content: content,
+      content: isCustomDialog
+          ? content
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _roundedContainer(
+                    true,
+                    Colors.grey[800] as Color,
+                    Center(
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: background,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          iconEvent,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    130),
+                _roundedContainer(
+                    false,
+                    Colors.white,
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            title!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            message!,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    null),
+              ],
+            ),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +118,28 @@ class CustomDialog extends StatelessWidget {
           ],
         )
       ],
+    );
+  }
+
+  Widget _roundedContainer(
+      bool isTop, Color backgroundColor, Widget content, double? height) {
+    return Container(
+      height: height,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(isTop ? 0.0 : 10.0),
+            top: Radius.circular(isTop ? 10.0 : 0.0)),
+        color: backgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: backgroundColor,
+            offset: const Offset(0.0, 1.0),
+            blurRadius: 2.0,
+          ),
+        ],
+      ),
+      child: content,
     );
   }
 }

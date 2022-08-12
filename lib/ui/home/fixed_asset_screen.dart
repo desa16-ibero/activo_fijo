@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,14 +23,30 @@ class _FixedAssetScreenState extends State<FixedAssetScreen> {
   late FixedAssetService _fixedAssetService;
 
   @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    _fixedAssetService.back(context);
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     _fixedAssetService = Provider.of<FixedAssetService>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Activo fijo seleccionado'),
         leading: GestureDetector(
-          onTap: () => Navigator.of(context)
-              .pushNamedAndRemoveUntil(RoutePaths.home, (route) => false),
+          onTap: () => _fixedAssetService.back(context),
           child: const Icon(Icons.arrow_back_rounded),
         ),
         actions: [
@@ -41,8 +58,7 @@ class _FixedAssetScreenState extends State<FixedAssetScreen> {
             child: PopupMenuButton<int>(
               color: CustomColors.dartMainColor,
               itemBuilder: (context) => [
-                PopUpMenuItem.createPopUpMenuItem(
-                    'Guardar', 0, Icons.save),
+                PopUpMenuItem.createPopUpMenuItem('Guardar', 0, Icons.save),
               ],
               onSelected: (item) =>
                   _fixedAssetService.selectedPopUpMenuItem(item, context),
