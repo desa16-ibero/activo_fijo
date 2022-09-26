@@ -32,6 +32,9 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   back_button_interceptor: ^5.0.2
 
+  external_path: ^1.0.1
+  permission_handler: ^10.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

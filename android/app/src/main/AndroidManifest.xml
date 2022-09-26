@@ -2,7 +2,9 @@
     package="mx.ibero.activoFijo.activo_fijo">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   <application
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
         android:label="Activo fijo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

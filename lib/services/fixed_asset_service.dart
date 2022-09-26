@@ -4,10 +4,11 @@ import 'dart:typed_data';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:easy_signature_pad/easy_signature_pad.dart';
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../model/fixed_asset.dart';
@@ -167,9 +168,11 @@ class FixedAssetService with ChangeNotifier {
               pixelRatio: pixelRatio,
               delay: const Duration(milliseconds: 10))
           .then((capturedImage) async {
-        final tempDir = await getTemporaryDirectory();
+        final tempPath = await ExternalPath.getExternalStoragePublicDirectory(
+            ExternalPath.DIRECTORY_DOWNLOADS);
+        String path = await createFolderInAppDocDir('Activo fijo', tempPath);
         File fileSignature = await File(
-                '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch.toString()}.jpg')
+                '$path${DateTime.now().millisecondsSinceEpoch.toString()}.jpg')
             .create();
         fileSignature.writeAsBytesSync(capturedImage);
         String pathEvidence = evidence.isNotEmpty ? File(evidence).path : '';
@@ -177,7 +180,6 @@ class FixedAssetService with ChangeNotifier {
             imgEvidence: pathEvidence,
             imgSignature: fileSignature.path,
             name: nameController.text);
-        debugPrint(pathEvidence);
         _sendFixedAsset(context, fixedAsset);
       });
     } else {
@@ -189,6 +191,24 @@ class FixedAssetService with ChangeNotifier {
           title: 'Alerta',
           confirmBtnText: 'Cerrar',
           backgroundColor: Colors.yellow[800] as Color);
+    }
+  }
+
+  static Future<String> createFolderInAppDocDir(
+      String folderName, String path) async {
+    var status = await Permission.storage.status;
+    if (status.isDenied) {
+      await Permission.storage.request();
+    }
+
+    final Directory _appDocDirFolder = Directory('$path/$folderName/');
+
+    if (await _appDocDirFolder.exists()) {
+      return _appDocDirFolder.path;
+    } else {
+      final Directory _appDocDirNewFolder =
+          await _appDocDirFolder.create(recursive: true);
+      return _appDocDirNewFolder.path;
     }
   }
 
