@@ -46,7 +46,7 @@ class HomeService with ChangeNotifier {
       CoolAlert.show(
         context: context,
         type: CoolAlertType.error,
-        text: 'Hubó un error al obtener la lista de activo fijo.',
+        text: error.toString(),
         title: 'Error',
         confirmBtnText: 'Cerrar',
         backgroundColor: Colors.red[900] as Color,

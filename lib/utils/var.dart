@@ -9,7 +9,7 @@ import 'package:unique_identifier/unique_identifier.dart';
 import 'custom_colors.dart';
 
 class Var {
-  static String urlService = 'intrawebdes.ibero.mx';
+  static String urlService = 'intrawebpru.ibero.mx';
 
   static ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
     onPrimary: Colors.white,
