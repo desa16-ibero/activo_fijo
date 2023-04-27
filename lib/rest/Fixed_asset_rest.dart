@@ -18,10 +18,11 @@ class FixedAssetRest {
       'Content-Type': 'application/json',
       'token': Var.md5Hash(device),
       'id_dispositivo': device as String,
+      'num_cia': Var.user!.profileID == 24 ? '100' : '200',
     };
 
     final uri =
-        Uri.https(Var.urlService, '/rest/apiaf_controller/APIAF/getInfo');
+        Uri.https(Var.urlServer, '/rest/apiaf_controller/APIAF/getInfo');
 
     debugPrint(uri.toString());
     debugPrint(headers.toString());
@@ -44,7 +45,7 @@ class FixedAssetRest {
       'id_dispositivo': device as String,
     };
 
-    final uri = Uri.https(Var.urlService, '/rest/apiaf_controller/APIAF/garch');
+    final uri = Uri.https(Var.urlServer, '/rest/apiaf_controller/APIAF/garch');
 
     var formData = FormData.fromMap({
       'img_firma': await MultipartFile.fromFile(
@@ -56,7 +57,7 @@ class FixedAssetRest {
           : '',
       'id_solicitud': fixedAsset.idRequest,
       'num_activo_uia': fixedAsset.activeNumUia,
-      'num_cia': '100',
+      'num_cia': Var.user!.profileID == 24 ? '100' : '200',
       'num_tipo': fixedAsset.typeNumber,
       'nom_firma': fixedAsset.name as String,
     });

@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'fixed_asset.dart';
 
@@ -50,7 +50,8 @@ mixin _$FixedAsset {
 abstract class $FixedAssetCopyWith<$Res> {
   factory $FixedAssetCopyWith(
           FixedAsset value, $Res Function(FixedAsset) then) =
-      _$FixedAssetCopyWithImpl<$Res>;
+      _$FixedAssetCopyWithImpl<$Res, FixedAsset>;
+  @useResult
   $Res call(
       {@JsonKey(name: 'NUM_ACTIVO_UIA') String activeNumUia,
       @JsonKey(name: 'DESCRIPCION') String description,
@@ -66,73 +67,76 @@ abstract class $FixedAssetCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$FixedAssetCopyWithImpl<$Res> implements $FixedAssetCopyWith<$Res> {
+class _$FixedAssetCopyWithImpl<$Res, $Val extends FixedAsset>
+    implements $FixedAssetCopyWith<$Res> {
   _$FixedAssetCopyWithImpl(this._value, this._then);
 
-  final FixedAsset _value;
   // ignore: unused_field
-  final $Res Function(FixedAsset) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activeNumUia = freezed,
-    Object? description = freezed,
-    Object? brand = freezed,
-    Object? model = freezed,
-    Object? serie = freezed,
-    Object? reponsibleName = freezed,
-    Object? idRequest = freezed,
-    Object? typeNumber = freezed,
+    Object? activeNumUia = null,
+    Object? description = null,
+    Object? brand = null,
+    Object? model = null,
+    Object? serie = null,
+    Object? reponsibleName = null,
+    Object? idRequest = null,
+    Object? typeNumber = null,
     Object? imgSignature = freezed,
     Object? imgEvidence = freezed,
     Object? name = freezed,
   }) {
     return _then(_value.copyWith(
-      activeNumUia: activeNumUia == freezed
+      activeNumUia: null == activeNumUia
           ? _value.activeNumUia
           : activeNumUia // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      brand: brand == freezed
+      brand: null == brand
           ? _value.brand
           : brand // ignore: cast_nullable_to_non_nullable
               as String,
-      model: model == freezed
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
-      serie: serie == freezed
+      serie: null == serie
           ? _value.serie
           : serie // ignore: cast_nullable_to_non_nullable
               as String,
-      reponsibleName: reponsibleName == freezed
+      reponsibleName: null == reponsibleName
           ? _value.reponsibleName
           : reponsibleName // ignore: cast_nullable_to_non_nullable
               as String,
-      idRequest: idRequest == freezed
+      idRequest: null == idRequest
           ? _value.idRequest
           : idRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      typeNumber: typeNumber == freezed
+      typeNumber: null == typeNumber
           ? _value.typeNumber
           : typeNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      imgSignature: imgSignature == freezed
+      imgSignature: freezed == imgSignature
           ? _value.imgSignature
           : imgSignature // ignore: cast_nullable_to_non_nullable
               as String?,
-      imgEvidence: imgEvidence == freezed
+      imgEvidence: freezed == imgEvidence
           ? _value.imgEvidence
           : imgEvidence // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
@@ -143,6 +147,7 @@ abstract class _$$_FixedAssetCopyWith<$Res>
           _$_FixedAsset value, $Res Function(_$_FixedAsset) then) =
       __$$_FixedAssetCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {@JsonKey(name: 'NUM_ACTIVO_UIA') String activeNumUia,
       @JsonKey(name: 'DESCRIPCION') String description,
@@ -158,71 +163,70 @@ abstract class _$$_FixedAssetCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_FixedAssetCopyWithImpl<$Res> extends _$FixedAssetCopyWithImpl<$Res>
+class __$$_FixedAssetCopyWithImpl<$Res>
+    extends _$FixedAssetCopyWithImpl<$Res, _$_FixedAsset>
     implements _$$_FixedAssetCopyWith<$Res> {
   __$$_FixedAssetCopyWithImpl(
       _$_FixedAsset _value, $Res Function(_$_FixedAsset) _then)
-      : super(_value, (v) => _then(v as _$_FixedAsset));
+      : super(_value, _then);
 
-  @override
-  _$_FixedAsset get _value => super._value as _$_FixedAsset;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? activeNumUia = freezed,
-    Object? description = freezed,
-    Object? brand = freezed,
-    Object? model = freezed,
-    Object? serie = freezed,
-    Object? reponsibleName = freezed,
-    Object? idRequest = freezed,
-    Object? typeNumber = freezed,
+    Object? activeNumUia = null,
+    Object? description = null,
+    Object? brand = null,
+    Object? model = null,
+    Object? serie = null,
+    Object? reponsibleName = null,
+    Object? idRequest = null,
+    Object? typeNumber = null,
     Object? imgSignature = freezed,
     Object? imgEvidence = freezed,
     Object? name = freezed,
   }) {
     return _then(_$_FixedAsset(
-      activeNumUia: activeNumUia == freezed
+      activeNumUia: null == activeNumUia
           ? _value.activeNumUia
           : activeNumUia // ignore: cast_nullable_to_non_nullable
               as String,
-      description: description == freezed
+      description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      brand: brand == freezed
+      brand: null == brand
           ? _value.brand
           : brand // ignore: cast_nullable_to_non_nullable
               as String,
-      model: model == freezed
+      model: null == model
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
-      serie: serie == freezed
+      serie: null == serie
           ? _value.serie
           : serie // ignore: cast_nullable_to_non_nullable
               as String,
-      reponsibleName: reponsibleName == freezed
+      reponsibleName: null == reponsibleName
           ? _value.reponsibleName
           : reponsibleName // ignore: cast_nullable_to_non_nullable
               as String,
-      idRequest: idRequest == freezed
+      idRequest: null == idRequest
           ? _value.idRequest
           : idRequest // ignore: cast_nullable_to_non_nullable
               as int,
-      typeNumber: typeNumber == freezed
+      typeNumber: null == typeNumber
           ? _value.typeNumber
           : typeNumber // ignore: cast_nullable_to_non_nullable
               as String,
-      imgSignature: imgSignature == freezed
+      imgSignature: freezed == imgSignature
           ? _value.imgSignature
           : imgSignature // ignore: cast_nullable_to_non_nullable
               as String?,
-      imgEvidence: imgEvidence == freezed
+      imgEvidence: freezed == imgEvidence
           ? _value.imgEvidence
           : imgEvidence // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -290,49 +294,53 @@ class _$_FixedAsset implements _FixedAsset {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_FixedAsset &&
-            const DeepCollectionEquality()
-                .equals(other.activeNumUia, activeNumUia) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.brand, brand) &&
-            const DeepCollectionEquality().equals(other.model, model) &&
-            const DeepCollectionEquality().equals(other.serie, serie) &&
-            const DeepCollectionEquality()
-                .equals(other.reponsibleName, reponsibleName) &&
-            const DeepCollectionEquality().equals(other.idRequest, idRequest) &&
-            const DeepCollectionEquality()
-                .equals(other.typeNumber, typeNumber) &&
-            const DeepCollectionEquality()
-                .equals(other.imgSignature, imgSignature) &&
-            const DeepCollectionEquality()
-                .equals(other.imgEvidence, imgEvidence) &&
-            const DeepCollectionEquality().equals(other.name, name));
+            (identical(other.activeNumUia, activeNumUia) ||
+                other.activeNumUia == activeNumUia) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.serie, serie) || other.serie == serie) &&
+            (identical(other.reponsibleName, reponsibleName) ||
+                other.reponsibleName == reponsibleName) &&
+            (identical(other.idRequest, idRequest) ||
+                other.idRequest == idRequest) &&
+            (identical(other.typeNumber, typeNumber) ||
+                other.typeNumber == typeNumber) &&
+            (identical(other.imgSignature, imgSignature) ||
+                other.imgSignature == imgSignature) &&
+            (identical(other.imgEvidence, imgEvidence) ||
+                other.imgEvidence == imgEvidence) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(activeNumUia),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(brand),
-      const DeepCollectionEquality().hash(model),
-      const DeepCollectionEquality().hash(serie),
-      const DeepCollectionEquality().hash(reponsibleName),
-      const DeepCollectionEquality().hash(idRequest),
-      const DeepCollectionEquality().hash(typeNumber),
-      const DeepCollectionEquality().hash(imgSignature),
-      const DeepCollectionEquality().hash(imgEvidence),
-      const DeepCollectionEquality().hash(name));
+      activeNumUia,
+      description,
+      brand,
+      model,
+      serie,
+      reponsibleName,
+      idRequest,
+      typeNumber,
+      imgSignature,
+      imgEvidence,
+      name);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_FixedAssetCopyWith<_$_FixedAsset> get copyWith =>
       __$$_FixedAssetCopyWithImpl<_$_FixedAsset>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_FixedAssetToJson(this);
+    return _$$_FixedAssetToJson(
+      this,
+    );
   }
 }
 

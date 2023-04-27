@@ -1,23 +1,31 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
+import '../model/user.dart';
 import 'custom_colors.dart';
 
 class Var {
-  static String urlService = 'intrawebpru.ibero.mx';
+  static var box = Hive.box('Activo_fijo_box');
+
+  static String urlServer = 'intrawebpru.ibero.mx';
+  static String urlServerLogin = 'serviciosenlineapru.ibero.mx';
+
+  static User? user;
 
   static ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-    onPrimary: Colors.white,
-    primary: CustomColors.dartMainColor,
+    foregroundColor: Colors.white,
+    backgroundColor: CustomColors.dartMainColor,
     minimumSize: const Size(88, 36),
     padding: const EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(5)),
+      borderRadius: BorderRadius.all(Radius.circular(35)),
     ),
   );
 
@@ -86,4 +94,21 @@ class Var {
 
     return identifier;
   }
+
+  static encryptedString(String value) {
+    final pass = value;
+    final key = encrypt.Key.fromUtf8('D3BkxBSoTpubByK0');
+    final iv = encrypt.IV.fromUtf8('13bkatwVHobQdnMY');
+
+    final encryptTemp =
+        encrypt.Encrypter(encrypt.AES(key, mode: encrypt.AESMode.cbc));
+
+    final encrypted = encryptTemp.encrypt(pass, iv: iv);
+
+    return encrypted.base64;
+  }
+}
+
+enum CollectionsDB {
+  user,
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../model/user.dart';
 import '../../utils/custom_colors.dart';
 import '../../utils/routes.dart';
+import '../../utils/var.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,8 +16,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      dynamic user = Var.box.get(CollectionsDB.user.name);
+      if (user != null) {
+        user = user as User;
+        Var.user = user;
+        if (user.saveSession!) {
+          Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+        } else {
+          Navigator.of(context).pushReplacementNamed(RoutePaths.login);
+        }
+      } else {
+        Navigator.of(context).pushReplacementNamed(RoutePaths.login);
+
+        /*Var.user = User.testUser;
+        Navigator.of(context).pushReplacementNamed(RoutePaths.home);*/
+      }
     });
   }
 
