@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../model/fixed_asset.dart';
 import '../../services/home_service.dart';
 import '../../utils/custom_colors.dart';
+import '../../utils/var.dart';
 import '../../widgets/custom_list_tile.dart';
 import '../../widgets/not_found_content.dart';
 import '../../widgets/popup_menu_item.dart';
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _homeService.getCatalog(context);
     });
   }
@@ -47,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 dividerColor: Colors.white,
                 iconTheme: const IconThemeData(color: Colors.white)),
             child: PopupMenuButton<int>(
-              color: CustomColors.dartMainColor,
               itemBuilder: (context) => [
                 const PopupMenuItem<int>(
                   value: 0,
@@ -68,14 +68,33 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _homeService.lstFixedAssets.isNotEmpty
             ? _homeService.lstFixedAssetsFiltered.isNotEmpty ||
                     _homeService.searchController.text.isNotEmpty
-                ? _body(_homeService.lstFixedAssetsFiltered)
-                : _body(_homeService.lstFixedAssets)
+                ? LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      if (constraints.maxWidth > Var.maxWidth) {
+                        return _body(_homeService.lstFixedAssetsFiltered, true);
+                      } else {
+                        return _body(
+                            _homeService.lstFixedAssetsFiltered, false);
+                      }
+                    },
+                  )
+                : LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      if (constraints.maxWidth > Var.maxWidth) {
+                        return _body(_homeService.lstFixedAssets, true);
+                      } else {
+                        return _body(_homeService.lstFixedAssets, false);
+                      }
+                    },
+                  )
             : const NotFoundContent(text: 'No se encontró ningún resultado.'),
       ),
     );
   }
 
-  Widget _body(List<FixedAsset> lstFixedAssets) {
+  Widget _body(List<FixedAsset> lstFixedAssets, bool isNotMobile) {
     return Column(
       children: [
         Container(
@@ -107,46 +126,56 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.all(10),
-            shrinkWrap: true,
-            itemCount: lstFixedAssets.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () =>
-                    _homeService.openFixedAsset(context, lstFixedAssets[index]),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                        color: CustomColors.dartMainColor, width: 1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      CustomListTile(
-                        title1: 'Número UIA',
-                        subTitle1: lstFixedAssets[index].activeNumUia,
-                        icon1: FontAwesomeIcons.hashtag,
-                        title2: 'Serie',
-                        subTitle2: lstFixedAssets[index].serie,
-                        icon2: FontAwesomeIcons.barcode,
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isNotMobile
+                            ? MediaQuery.of(context).size.width / 4
+                            : 0,
                       ),
-                      CustomListTile(
-                        title1: 'Marca',
-                        subTitle1: lstFixedAssets[index].brand,
-                        icon1: FontAwesomeIcons.tag,
-                        title2: 'Modelo',
-                        subTitle2: lstFixedAssets[index].model,
-                        icon2: FontAwesomeIcons.barsStaggered,
-                      )
-                    ],
-                  ),
+                      child: GestureDetector(
+                        onTap: () => _homeService.openFixedAsset(
+                            context, lstFixedAssets[index]),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                color: CustomColors.dartMainColor, width: 1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            children: [
+                              CustomListTile(
+                                title1: 'Número UIA',
+                                subTitle1: lstFixedAssets[index].activeNumUia,
+                                icon1: FontAwesomeIcons.hashtag,
+                                title2: 'Serie',
+                                subTitle2: lstFixedAssets[index].serie,
+                                icon2: FontAwesomeIcons.barcode,
+                              ),
+                              CustomListTile(
+                                title1: 'Marca',
+                                subTitle1: lstFixedAssets[index].brand,
+                                icon1: FontAwesomeIcons.tag,
+                                title2: 'Modelo',
+                                subTitle2: lstFixedAssets[index].model,
+                                icon2: FontAwesomeIcons.barsStaggered,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: lstFixedAssets.length,
                 ),
-              );
-            },
+              ),
+            ],
           ),
-        )
+        ),
       ],
     );
   }

@@ -27,12 +27,18 @@ class FixedAssetRest {
     debugPrint(uri.toString());
     debugPrint(headers.toString());
 
-    return _netUtil.get(context, uri, headers: headers);
+    if (context.mounted) {
+      return _netUtil.get(context, uri, headers: headers);
+    } else {
+      return null;
+    }
+
     final String response =
         await rootBundle.loadString('assets/json/catalog.json');
     final data = await json.decode(response);
 
     return data;
+
   }
 
   Future<dynamic> sendFixedAsset(
@@ -64,9 +70,12 @@ class FixedAssetRest {
 
     debugPrint(uri.toString());
     debugPrint(headers.toString());
-
-    return _netUtil.multipart(
-        context: context, url: uri, formData: formData, headers: headers);
+    if (context.mounted) {
+      return _netUtil.multipart(
+          context: context, url: uri, formData: formData, headers: headers);
+    } else {
+      return null;
+    }
 
     return {'EXITO': true, 'MENSAJE': 'Guardado'};
   }

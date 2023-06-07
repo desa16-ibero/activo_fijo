@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../services/fixed_asset_service.dart';
 import '../../utils/custom_colors.dart';
-import '../../utils/routes.dart';
 import '../../utils/var.dart';
 import '../../widgets/custom_title.dart';
 import '../../widgets/popup_menu_item.dart';
@@ -56,7 +55,6 @@ class _FixedAssetScreenState extends State<FixedAssetScreen> {
                 dividerColor: Colors.white,
                 iconTheme: const IconThemeData(color: Colors.white)),
             child: PopupMenuButton<int>(
-              color: CustomColors.dartMainColor,
               itemBuilder: (context) => [
                 PopUpMenuItem.createPopUpMenuItem('Guardar', 0, Icons.save),
               ],
@@ -69,54 +67,72 @@ class _FixedAssetScreenState extends State<FixedAssetScreen> {
       body: AbsorbPointer(
         absorbing: _fixedAssetService.isLoading,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const CustomTitle(title: 'Resumen'),
-              _fixedAssetService.makeTable(_fixedAssetService.mapFixedAsset),
-              const CustomTitle(title: 'Nombre'),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  controller: _fixedAssetService.nameController,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: const BorderSide(),
-                    ), //fillColor: Colors.green
-                  ),
-                  onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return 'Debes ingresar este campo';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              ElevatedButton(
-                style: Var.raisedButtonStyle,
-                onPressed: () => _fixedAssetService.openSignature(context),
-                child: const Text('Firmar'),
-              ),
-              if (_fixedAssetService.signatureBytes != null &&
-                  _fixedAssetService.showSignature)
-                Image.memory(
-                  _fixedAssetService.signatureBytes as Uint8List,
-                  fit: BoxFit.cover,
-                ),
-              ElevatedButton(
-                style: Var.raisedButtonStyle,
-                onPressed: () => _fixedAssetService.openCamera(context),
-                child: const Text('Tomar fotografía'),
-              ),
-              _fixedAssetService.evidence.isNotEmpty
-                  ? _customPicture(_fixedAssetService.evidence)
-                  : Container()
-            ],
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth > Var.maxWidth) {
+                return _makeContent(true);
+              } else {
+                return _makeContent(false);
+              }
+            },
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _makeContent(bool isNotMobile) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: isNotMobile ? MediaQuery.of(context).size.width / 4 : 0,
+      ),
+      child: Column(
+        children: [
+          const CustomTitle(title: 'Resumen'),
+          _fixedAssetService.makeTable(_fixedAssetService.mapFixedAsset),
+          const CustomTitle(title: 'Nombre'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              controller: _fixedAssetService.nameController,
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: const BorderSide(),
+                ),
+              ),
+              onEditingComplete: () => FocusScope.of(context).nextFocus(),
+              validator: (String? value) {
+                if (value!.isEmpty) {
+                  return 'Debes ingresar este campo';
+                }
+                return null;
+              },
+            ),
+          ),
+          ElevatedButton(
+            style: Var.raisedButtonStyle,
+            onPressed: () => _fixedAssetService.openSignature(context),
+            child: const Text('Firmar'),
+          ),
+          if (_fixedAssetService.signatureBytes != null &&
+              _fixedAssetService.showSignature)
+            Image.memory(
+              _fixedAssetService.signatureBytes as Uint8List,
+              fit: BoxFit.cover,
+            ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            style: Var.raisedButtonStyle,
+            onPressed: () => _fixedAssetService.openCamera(context),
+            child: const Text('Tomar fotografía'),
+          ),
+          _fixedAssetService.evidence.isNotEmpty
+              ? _customPicture(_fixedAssetService.evidence)
+              : Container()
+        ],
       ),
     );
   }

@@ -37,16 +37,23 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primarySwatch: CustomColors.colorCustom,
+          dividerTheme: const DividerThemeData(color: CustomColors.mainColor),
           primaryColor: CustomColors.mainColor,
           brightness: Brightness.light,
           appBarTheme: const AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle.light,
-              color: CustomColors.mainColor),
+            systemOverlayStyle: SystemUiOverlayStyle.light,
+            color: CustomColors.mainColor,
+            iconTheme: IconThemeData(color: Colors.white),
+          ),
         ),
         builder: EasyLoading.init(),
         initialRoute: '/',
         routes: routes,
-        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         supportedLocales: const [Locale('es'), Locale('en')],
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
@@ -14,8 +15,9 @@ import 'custom_colors.dart';
 class Var {
   static var box = Hive.box('Activo_fijo_box');
 
-  static String urlServer = 'intrawebpru.ibero.mx';
-  static String urlServerLogin = 'serviciosenlineapru.ibero.mx';
+  static const String urlServer = 'intrawebpru.ibero.mx';
+  static const String urlServerLogin = 'serviciosenlineapru.ibero.mx';
+  static const double maxWidth = 700;
 
   static User? user;
 
@@ -44,7 +46,7 @@ class Var {
     int day = int.parse(dayFormat);
     var dayStr = '';
     if (day < 10) {
-      dayStr = '0' + day.toString();
+      dayStr = '0$day';
     } else {
       dayStr = day.toString();
     }
@@ -52,7 +54,7 @@ class Var {
     var monthStr = '';
     int month = int.parse(monthFormat);
     if (month < 10) {
-      monthStr = '0' + month.toString();
+      monthStr = '0$month';
     } else {
       monthStr = month.toString();
     }
@@ -85,9 +87,11 @@ class Var {
   }
 
   static Future<String?> getIdentifier() async {
-    String? identifier;
+    String? identifier = 'General';
     try {
-      identifier = await UniqueIdentifier.serial;
+      if (Platform.isAndroid || Platform.isIOS) {
+        identifier = await UniqueIdentifier.serial;
+      }
     } on PlatformException {
       identifier = 'Failed to get Unique Identifier';
     }

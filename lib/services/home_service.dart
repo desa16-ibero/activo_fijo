@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,8 @@ class HomeService with ChangeNotifier {
     }).catchError((Object error) {
       debugPrint(error.toString());
       CoolAlert.show(
+        width:
+            Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
         context: context,
         type: CoolAlertType.error,
         text: error.toString(),
@@ -58,11 +62,11 @@ class HomeService with ChangeNotifier {
   }
 
   openFixedAsset(BuildContext context, FixedAsset fixedAsset) {
-    var _fixedAssetService =
+    var fixedAssetService =
         Provider.of<FixedAssetService>(context, listen: false);
-    _fixedAssetService.mapFixedAsset =
+    fixedAssetService.mapFixedAsset =
         FixedAsset.mapToFixedAssetScreen(fixedAsset);
-    _fixedAssetService.fixedAsset = fixedAsset;
+    fixedAssetService.fixedAsset = fixedAsset;
     Navigator.of(context)
         .pushNamedAndRemoveUntil(RoutePaths.fixedAsset, (route) => false);
   }

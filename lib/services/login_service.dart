@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -31,6 +33,7 @@ class LoginService with ChangeNotifier {
     _showDismissLoader(false);
     debugPrint(error);
     CoolAlert.show(
+      width: Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
       context: context,
       type: CoolAlertType.error,
       text: error.toString(),
@@ -100,6 +103,9 @@ class LoginService with ChangeNotifier {
               .pushNamedAndRemoveUntil(RoutePaths.home, (route) => false);
         } else {
           CoolAlert.show(
+              width: Platform.isWindows
+                  ? MediaQuery.of(context).size.width / 6
+                  : null,
               context: context,
               barrierDismissible: false,
               type: CoolAlertType.warning,
@@ -114,6 +120,8 @@ class LoginService with ChangeNotifier {
 
   Future<bool> onWillPop(BuildContext context) async {
     bool? exitResult = await CoolAlert.show(
+        width:
+            Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
         context: context,
         type: CoolAlertType.confirm,
         text: '¿Deseas salir de la aplicación?',

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
@@ -21,6 +22,9 @@ class NetworkUtil {
 
       if (statusCode < 200 || statusCode >= 400) {
         CoolAlert.show(
+            width: Platform.isWindows
+                ? MediaQuery.of(context).size.width / 6
+                : null,
             context: context,
             barrierDismissible: false,
             type: CoolAlertType.warning,
@@ -49,6 +53,9 @@ class NetworkUtil {
 
       if (statusCode < 200 || statusCode >= 400) {
         CoolAlert.show(
+            width: Platform.isWindows
+                ? MediaQuery.of(context).size.width / 6
+                : null,
             context: context,
             barrierDismissible: false,
             type: CoolAlertType.warning,
@@ -74,6 +81,9 @@ class NetworkUtil {
 
       if (statusCode < 200 || statusCode >= 400) {
         CoolAlert.show(
+            width: Platform.isWindows
+                ? MediaQuery.of(context).size.width / 6
+                : null,
             context: context,
             barrierDismissible: false,
             type: CoolAlertType.warning,
@@ -100,6 +110,9 @@ class NetworkUtil {
 
       if (statusCode < 200 || statusCode >= 400) {
         CoolAlert.show(
+            width: Platform.isWindows
+                ? MediaQuery.of(context).size.width / 6
+                : null,
             context: context,
             barrierDismissible: false,
             type: CoolAlertType.warning,

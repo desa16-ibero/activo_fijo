@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../services/home_service.dart';
+import '../utils/custom_colors.dart';
 
 class RadioGroup extends StatefulWidget {
   const RadioGroup({Key? key}) : super(key: key);
@@ -39,20 +40,23 @@ class RadioGroupWidget extends State {
 
   @override
   Widget build(BuildContext context) {
-    var _homeService = Provider.of<HomeService>(context, listen: false);
+    var homeService = Provider.of<HomeService>(context, listen: false);
 
     return Column(
       children: fList
           .map((data) => RadioListTile(
-                title: Text(data.name),
-                groupValue: _homeService.selectedOptionMenu,
+                title: Text(
+                  data.name,
+                  style: const TextStyle(color: CustomColors.dartMainColor),
+                ),
+                groupValue: homeService.selectedOptionMenu,
                 value: data.index,
-                activeColor: Colors.white,
+                activeColor: CustomColors.dartMainColor,
                 onChanged: (val) {
                   setState(() {
-                    _homeService.selectedOptionMenu = data.index;
+                    homeService.selectedOptionMenu = data.index;
                   });
-                  _homeService.setSelectedRadio(val, context);
+                  homeService.setSelectedRadio(val, context);
                 },
               ))
           .toList(),

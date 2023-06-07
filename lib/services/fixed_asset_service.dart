@@ -13,8 +13,8 @@ import 'package:screenshot/screenshot.dart';
 
 import '../model/fixed_asset.dart';
 import '../rest/Fixed_asset_rest.dart';
-import '../utils/custom_colors.dart';
 import '../utils/routes.dart';
+import '../utils/var.dart';
 import '../widgets/custom_dialog.dart';
 import '../widgets/custom_single_table.dart';
 import '../widgets/custom_title.dart';
@@ -71,8 +71,13 @@ class FixedAssetService with ChangeNotifier {
   }
 
   openCamera(BuildContext context) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? photo;
+    if (Platform.isWindows) {
+      photo = await _picker.pickImage(source: ImageSource.gallery);
+    } else {
+      FocusManager.instance.primaryFocus?.unfocus();
+      photo = await _picker.pickImage(source: ImageSource.camera);
+    }
     if (photo != null) {
       evidence = photo.path;
       notifyListeners();
@@ -95,7 +100,7 @@ class FixedAssetService with ChangeNotifier {
           onWillPop: () async => false,
           child: CustomDialog(
             isCustomDialog: true,
-            textCancelButton: 'Cacelar',
+            textCancelButton: 'Cancelar',
             textOkButton: 'Guardar',
             onConfirmBtnTap: () {
               showSignature = true;
@@ -116,18 +121,15 @@ class FixedAssetService with ChangeNotifier {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  EasySignaturePad(
-                    onChanged: (image) => _setImage(image),
-                    height: size.width ~/ 1.5,
-                    width: size.width ~/ 1,
-                    penColor: Colors.black,
-                    strokeWidth: 1.0,
-                    borderRadius: 10.0,
-                    borderColor: Colors.white,
-                    backgroundColor: Colors.white,
-                    transparentImage: false,
-                    transparentSignaturePad: false,
-                    hideClearSignatureIcon: false,
+                  LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      if (constraints.maxWidth > Var.maxWidth) {
+                        return _signaturePad(size, true);
+                      } else {
+                        return _signaturePad(size, false);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -135,6 +137,22 @@ class FixedAssetService with ChangeNotifier {
           ),
         );
       },
+    );
+  }
+
+  Widget _signaturePad(Size size, bool isNotMobile) {
+    return EasySignaturePad(
+      onChanged: (image) => _setImage(image),
+      height: size.width ~/ (isNotMobile ? 3 : 1.5),
+      width: size.width ~/ 1,
+      penColor: Colors.black,
+      strokeWidth: 1.0,
+      borderRadius: 10.0,
+      borderColor: Colors.white,
+      backgroundColor: Colors.white,
+      transparentImage: false,
+      transparentSignaturePad: false,
+      hideClearSignatureIcon: false,
     );
   }
 
@@ -187,10 +205,12 @@ class FixedAssetService with ChangeNotifier {
             imgSignature: fileSignatureJPG.path,
             name: nameController.text);
         debugPrint(pathEvidence);
-        _sendFixedAsset(context, fixedAsset);
+        if (context.mounted) _sendFixedAsset(context, fixedAsset);
       });
     } else {
       CoolAlert.show(
+          width:
+              Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
           context: context,
           barrierDismissible: false,
           type: CoolAlertType.warning,
@@ -231,6 +251,9 @@ class FixedAssetService with ChangeNotifier {
           );
         } else {
           CoolAlert.show(
+              width: Platform.isWindows
+                  ? MediaQuery.of(context).size.width / 6
+                  : null,
               context: context,
               barrierDismissible: false,
               type: CoolAlertType.warning,
@@ -243,6 +266,8 @@ class FixedAssetService with ChangeNotifier {
     }).catchError((Object error) {
       debugPrint(error.toString());
       CoolAlert.show(
+        width:
+            Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
         context: context,
         type: CoolAlertType.error,
         text: 'Hubó un error al enviar el activo fijo.',
@@ -263,20 +288,28 @@ class FixedAssetService with ChangeNotifier {
 
   back(BuildContext context) {
     if (nameController.text.isNotEmpty || showSignature) {
-      CoolAlert.show(
+      showDialog(
         context: context,
-        type: CoolAlertType.confirm,
-        text:
-            'Estas a punto de salir y se perderan los cambios que no se hallan enviado.\n¿Deseas salir? ',
-        title: 'Atención',
-        confirmBtnColor: CustomColors.dartMainColor,
-        confirmBtnText: 'Salir',
-        cancelBtnText: 'Cancelar',
-        backgroundColor: Colors.blue[800] as Color,
-        onConfirmBtnTap: () async {
-          cleanFixedAsset();
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RoutePaths.home, (Route<dynamic> route) => false);
+        barrierDismissible: false,
+        builder: (BuildContext contextTemp) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: CustomDialog(
+              iconEvent: Icons.question_mark,
+              background: Colors.blue[800] as Color,
+              message:
+                  'Estas a punto de salir y se perderan los cambios que no se hallan enviado.\n¿Deseas salir? ',
+              title: 'Atención',
+              textOkButton: 'Continuar',
+              textCancelButton: 'Cancelar',
+              onConfirmBtnTap: () {
+                cleanFixedAsset();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    RoutePaths.home, (Route<dynamic> route) => false);
+              },
+              isCustomDialog: false,
+            ),
+          );
         },
       );
     } else {
@@ -312,5 +345,4 @@ class FixedAssetService with ChangeNotifier {
       },
     );
   }*/
-
 }

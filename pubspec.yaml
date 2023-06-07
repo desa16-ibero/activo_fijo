@@ -4,7 +4,7 @@ description: Aplicación para la gestión del activo fijo de la universidad.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 
 dependencies:
@@ -20,23 +20,26 @@ dependencies:
   hive_flutter: ^1.1.0
   freezed_annotation: ^2.2.0
 
-  dio: ^4.0.6
-  http: ^0.13.4
-  image: ^3.1.3
+  dio: ^5.1.1
+  intl: ^0.18.1
+  http: ^0.13.6
+  image: ^4.0.16
   crypto: ^3.0.2
   encrypt: ^5.0.1
-  provider: ^6.0.2
+  provider: ^6.0.5
   diacritic: ^0.1.3
-  screenshot: ^1.2.3
-  cool_alert: ^1.1.0
-  path_provider: ^2.0.11
-  image_picker: ^0.8.5+3
+  screenshot: ^1.3.0
+  cool_alert: ^2.0.1
+  path_provider: ^2.0.14
+  image_picker: ^0.8.7+4
+  image_picker_windows: ^0.1.0+6
   form_validation: ^2.1.0+2
-  unique_identifier: ^0.2.2
+  unique_identifier: ^0.3.0
   easy_signature_pad: ^1.0.6
-  flutter_easyloading: ^3.0.3
-  font_awesome_flutter: ^10.1.0
-  back_button_interceptor: ^5.0.2
+  flutter_easyloading: ^3.0.5
+  font_awesome_flutter: ^10.4.0
+  back_button_interceptor: ^6.0.2
+
 
 
 dev_dependencies:
@@ -44,11 +47,11 @@ dev_dependencies:
     sdk: flutter
 
 
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
   hive_generator: ^2.0.0
-  build_runner: ^2.1.11
-  freezed: ^2.2.1
-  json_serializable: ^6.5.4
+  build_runner: ^2.3.3
+  freezed: ^2.3.2
+  json_serializable: ^6.6.1
 
 
 
