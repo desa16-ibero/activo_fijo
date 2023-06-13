@@ -4,11 +4,13 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../model/fixed_asset.dart';
 import '../rest/Fixed_asset_rest.dart';
-import '../utils/routes.dart';
+import '../ui/home/privacy_police_screen.dart';
+import '../widgets/full_screen_dialog.dart';
 import 'fixed_asset_service.dart';
 
 class HomeService with ChangeNotifier {
@@ -21,6 +23,28 @@ class HomeService with ChangeNotifier {
   List<FixedAsset> lstFixedAssets = [];
   List<FixedAsset> lstFixedAssetsFiltered = [];
 
+  String privacyPolice = '';
+
+  _showDismissLoader(bool show) {
+    isLoading = show;
+    notifyListeners();
+    show ? EasyLoading.show() : EasyLoading.dismiss();
+  }
+
+  _showError(BuildContext context, String error) {
+    _showDismissLoader(false);
+    debugPrint(error);
+    CoolAlert.show(
+      width: Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
+      context: context,
+      type: CoolAlertType.error,
+      text: error.toString(),
+      title: 'Error',
+      confirmBtnText: 'Cerrar',
+      backgroundColor: Colors.red[900] as Color,
+    );
+  }
+
   selectedPopUpMenuItem(int option, BuildContext context) async {
     switch (option) {
       case 0:
@@ -30,9 +54,7 @@ class HomeService with ChangeNotifier {
   }
 
   getCatalog(BuildContext context) async {
-    EasyLoading.show();
-    isLoading = true;
-    notifyListeners();
+    _showDismissLoader(true);
     await _api.getCatalog(context).then((dynamic lstResponse) async {
       lstFixedAssets = [];
       if (lstResponse != null) {
@@ -43,22 +65,30 @@ class HomeService with ChangeNotifier {
           });
         }
       }
-    }).catchError((Object error) {
-      debugPrint(error.toString());
-      CoolAlert.show(
-        width:
-            Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
-        context: context,
-        type: CoolAlertType.error,
-        text: error.toString(),
-        title: 'Error',
-        confirmBtnText: 'Cerrar',
-        backgroundColor: Colors.red[900] as Color,
-      );
-    });
-    EasyLoading.dismiss();
-    isLoading = false;
+    }).catchError((Object error) => _showError(context, error.toString()));
+    _showDismissLoader(false);
+  }
+
+  getPrivacyPolice(BuildContext context) async {
+    _showDismissLoader(true);
+    privacyPolice = '';
+    await _api.getPrivacyPolice(context).then((dynamic response) async {
+      privacyPolice = response;
+    }).catchError((Object error) => _showError(context, error.toString()));
+    _showDismissLoader(false);
+  }
+
+  bool iAgree = false;
+
+  onChanged(bool value) {
+    iAgree = value;
     notifyListeners();
+  }
+
+  openPrivacyPolice(BuildContext context, FixedAsset fixedAsset) {
+    iAgree = false;
+    FullScreenDialog().fullScreenDialog(context,
+        PrivacyPoliceScreen(fixedAsset: fixedAsset), 'Aviso de privacidad');
   }
 
   openFixedAsset(BuildContext context, FixedAsset fixedAsset) {
@@ -67,8 +97,8 @@ class HomeService with ChangeNotifier {
     fixedAssetService.mapFixedAsset =
         FixedAsset.mapToFixedAssetScreen(fixedAsset);
     fixedAssetService.fixedAsset = fixedAsset;
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil(RoutePaths.fixedAsset, (route) => false);
+
+    context.pushReplacement('/home/fixedAsset');
   }
 
   onSearchTextChanged(String text) async {

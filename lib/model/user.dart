@@ -61,7 +61,7 @@ class User with _$User {
       hint: 'Usuario:',
       inputType: TextInputType.number,
       value: '',
-      validations: [
+      validations: const [
         MinLengthValidator(length: 1),
         RequiredValidator(),
       ],
@@ -71,7 +71,7 @@ class User with _$User {
       inputType: TextInputType.text,
       value: '',
       obscureText: false,
-      validations: [
+      validations: const [
         MinLengthValidator(length: 1),
         RequiredValidator(),
       ],
@@ -81,7 +81,7 @@ class User with _$User {
       inputType: TextInputType.text,
       value: '',
       obscureText: true,
-      validations: [
+      validations: const [
         MinLengthValidator(length: 1),
         RequiredValidator(),
       ],

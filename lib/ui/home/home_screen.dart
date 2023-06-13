@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         Container(
-          color: Theme.of(context).primaryColor,
+          color: CustomColors.dartMainColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             : 0,
                       ),
                       child: GestureDetector(
-                        onTap: () => _homeService.openFixedAsset(
+                        onTap: () => _homeService.openPrivacyPolice(
                             context, lstFixedAssets[index]),
                         child: Card(
                           shape: RoundedRectangleBorder(

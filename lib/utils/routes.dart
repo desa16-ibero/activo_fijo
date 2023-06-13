@@ -1,21 +1,40 @@
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+
 import '../ui/home/fixed_asset_screen.dart';
 import '../ui/home/home_screen.dart';
 import '../ui/login/login_screen.dart';
 import '../ui/splash/splash_screen.dart';
 
-class RoutePaths {
-  RoutePaths._();
-
-  static const splash = '/';
-  static const login = '/login';
-
-  static const home = '/home';
-  static const fixedAsset = '/fixedAsset';
-}
-
-final routes = {
-  RoutePaths.splash: (_) => const SplashScreen(),
-  RoutePaths.login: (_) => const LoginScreen(),
-  RoutePaths.home: (_) => const HomeScreen(),
-  RoutePaths.fixedAsset: (_) => const FixedAssetScreen(),
-};
+final GoRouter router = GoRouter(
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SplashScreen();
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'login',
+          builder: (BuildContext context, GoRouterState state) {
+            return const LoginScreen();
+          },
+        ),
+        GoRoute(
+          path: 'home',
+          builder: (BuildContext context, GoRouterState state) {
+            return const HomeScreen();
+          },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'fixedAsset',
+              builder: (BuildContext context, GoRouterState state) {
+                return const FixedAssetScreen();
+              },
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+);

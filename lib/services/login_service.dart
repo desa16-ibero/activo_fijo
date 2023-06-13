@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 
 import '../model/custom_model.dart';
 import '../model/user.dart';
 import '../rest/login_rest.dart';
-import '../utils/routes.dart';
 import '../utils/var.dart';
 
 class LoginService with ChangeNotifier {
@@ -99,8 +99,7 @@ class LoginService with ChangeNotifier {
               lastUpdatePassword: DateTime.now());
           Var.box.put(CollectionsDB.user.name, user);
           Var.user = user;
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(RoutePaths.home, (route) => false);
+          context.pushReplacement('/home');
         } else {
           CoolAlert.show(
               width: Platform.isWindows

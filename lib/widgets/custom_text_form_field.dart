@@ -59,7 +59,7 @@ class CustomTextFormField extends StatelessWidget {
                     LengthLimitingTextInputFormatter(2),
                   ]
                 : [],
-            validator: (value) => _validateText(value, context, customMessage),
+            validator: (value) => _validateText(value, customMessage),
           )
         : !isTFFLogin
             ? Padding(
@@ -95,8 +95,7 @@ class CustomTextFormField extends StatelessWidget {
                           : null),
                   onChanged: onChanged,
                   onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                  validator: (value) =>
-                      _validateText(value, context, customMessage),
+                  validator: (value) => _validateText(value, customMessage),
                   onFieldSubmitted: (_) => isLastTFF! ? send!() : null,
                   textInputAction:
                       isLastTFF! ? TextInputAction.send : TextInputAction.next,
@@ -117,8 +116,7 @@ class CustomTextFormField extends StatelessWidget {
                     textInputAction: isLastTFF!
                         ? TextInputAction.send
                         : TextInputAction.next,
-                    validator: (value) =>
-                        _validateText(value, context, customMessage),
+                    validator: (value) => _validateText(value, customMessage),
                     onChanged: onChanged,
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -142,14 +140,13 @@ class CustomTextFormField extends StatelessWidget {
               );
   }
 
-  _validateText(String? value, BuildContext context, String? customMessage) {
+  _validateText(String? value, String? customMessage) {
     if (validators != null) {
       var validator = Validator(
         validators: validators as List<ValueValidator>,
       );
 
       String? message = validator.validate(
-        context: context,
         label: hint,
         value: value,
       );

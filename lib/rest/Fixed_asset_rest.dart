@@ -27,18 +27,19 @@ class FixedAssetRest {
     debugPrint(uri.toString());
     debugPrint(headers.toString());
 
-    if (context.mounted) {
-      return _netUtil.get(context, uri, headers: headers);
+    if (Var.devMode) {
+      final String response =
+          await rootBundle.loadString('assets/json/catalog.json');
+      final data = await json.decode(response);
+
+      return data;
     } else {
-      return null;
+      if (context.mounted) {
+        return _netUtil.get(context, uri, headers: headers);
+      } else {
+        return null;
+      }
     }
-
-    final String response =
-        await rootBundle.loadString('assets/json/catalog.json');
-    final data = await json.decode(response);
-
-    return data;
-
   }
 
   Future<dynamic> sendFixedAsset(
@@ -65,18 +66,27 @@ class FixedAssetRest {
       'num_activo_uia': fixedAsset.activeNumUia,
       'num_cia': Var.user!.profileID == 24 ? '100' : '200',
       'num_tipo': fixedAsset.typeNumber,
-      'nom_firma': fixedAsset.name as String,
+      'nom_firma': fixedAsset.name,
     });
 
     debugPrint(uri.toString());
     debugPrint(headers.toString());
-    if (context.mounted) {
-      return _netUtil.multipart(
-          context: context, url: uri, formData: formData, headers: headers);
-    } else {
-      return null;
-    }
 
-    return {'EXITO': true, 'MENSAJE': 'Guardado'};
+    if (Var.devMode) {
+      return {'EXITO': true, 'MENSAJE': 'Guardado'};
+    } else {
+      if (context.mounted) {
+        return _netUtil.multipart(
+            context: context, url: uri, formData: formData, headers: headers);
+      } else {
+        return null;
+      }
+    }
+  }
+
+  Future<dynamic> getPrivacyPolice(BuildContext context) async {
+    final String response =
+        await rootBundle.loadString('assets/text/privacy_police.txt');
+    return response;
   }
 }

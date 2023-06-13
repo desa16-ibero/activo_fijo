@@ -6,6 +6,7 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:easy_signature_pad/easy_signature_pad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image/image.dart' as image_convert;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +14,6 @@ import 'package:screenshot/screenshot.dart';
 
 import '../model/fixed_asset.dart';
 import '../rest/Fixed_asset_rest.dart';
-import '../utils/routes.dart';
 import '../utils/var.dart';
 import '../widgets/custom_dialog.dart';
 import '../widgets/custom_single_table.dart';
@@ -241,8 +241,7 @@ class FixedAssetService with ChangeNotifier {
                   textOkButton: 'Continuar',
                   onConfirmBtnTap: () {
                     cleanFixedAsset();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        RoutePaths.home, (Route<dynamic> route) => false);
+                    context.pushReplacement('/home');
                   },
                   isCustomDialog: false,
                 ),
@@ -304,8 +303,7 @@ class FixedAssetService with ChangeNotifier {
               textCancelButton: 'Cancelar',
               onConfirmBtnTap: () {
                 cleanFixedAsset();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    RoutePaths.home, (Route<dynamic> route) => false);
+                context.pushReplacement('/home');
               },
               isCustomDialog: false,
             ),
@@ -313,8 +311,7 @@ class FixedAssetService with ChangeNotifier {
         },
       );
     } else {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          RoutePaths.home, (Route<dynamic> route) => false);
+      context.pushReplacement('/home');
     }
   }
 

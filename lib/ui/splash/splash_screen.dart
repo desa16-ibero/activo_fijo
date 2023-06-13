@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../model/user.dart';
 import '../../utils/custom_colors.dart';
-import '../../utils/routes.dart';
 import '../../utils/var.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,15 +22,15 @@ class _SplashScreenState extends State<SplashScreen> {
         user = user as User;
         Var.user = user;
         if (user.saveSession!) {
-          Navigator.of(context).pushReplacementNamed(RoutePaths.home);
+          context.pushReplacement('/home');
         } else {
-          Navigator.of(context).pushReplacementNamed(RoutePaths.login);
+          context.pushReplacement('/login');
         }
       } else {
-        Navigator.of(context).pushReplacementNamed(RoutePaths.login);
+        context.pushReplacement('/login');
 
         /*Var.user = User.testUser;
-        Navigator.of(context).pushReplacementNamed(RoutePaths.home);*/
+        context.pushReplacement('/home');*/
       }
     });
   }

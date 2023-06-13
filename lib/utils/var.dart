@@ -18,6 +18,7 @@ class Var {
   static const String urlServer = 'intrawebpru.ibero.mx';
   static const String urlServerLogin = 'serviciosenlineapru.ibero.mx';
   static const double maxWidth = 700;
+  static const bool devMode = false;
 
   static User? user;
 

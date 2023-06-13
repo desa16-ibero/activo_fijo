@@ -31,24 +31,28 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HomeService()),
         ChangeNotifierProvider(create: (_) => FixedAssetService()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Activo fijo',
         theme: ThemeData(
+          useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primarySwatch: CustomColors.colorCustom,
           dividerTheme: const DividerThemeData(color: CustomColors.mainColor),
           primaryColor: CustomColors.mainColor,
           brightness: Brightness.light,
+          dividerColor: CustomColors.dartMainColor,
+          colorScheme:
+              ColorScheme.fromSeed(seedColor: CustomColors.dartMainColor),
           appBarTheme: const AppBarTheme(
             systemOverlayStyle: SystemUiOverlayStyle.light,
-            color: CustomColors.mainColor,
+            color: CustomColors.dartMainColor,
+            titleTextStyle: TextStyle(color: Colors.white),
             iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
         builder: EasyLoading.init(),
-        initialRoute: '/',
-        routes: routes,
+        routerConfig: router,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
