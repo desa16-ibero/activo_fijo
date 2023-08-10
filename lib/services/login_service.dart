@@ -132,4 +132,17 @@ class LoginService with ChangeNotifier {
 
     return exitResult ?? false;
   }
+
+  showIdDevice(BuildContext context) async {
+    CoolAlert.show(
+        width:
+            Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
+        context: context,
+        barrierDismissible: false,
+        type: CoolAlertType.info,
+        text: await Var.getIdentifier(),
+        title: 'Identificador',
+        confirmBtnText: 'Cerrar',
+        backgroundColor: Colors.blue[800] as Color);
+  }
 }

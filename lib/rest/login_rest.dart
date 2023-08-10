@@ -6,8 +6,8 @@ import '../utils/var.dart';
 class LoginRest {
   final NetworkUtil _netUtil = NetworkUtil();
 
-  Future<dynamic> login(
-      BuildContext context, String account, String password, String typeUSer) {
+  Future<dynamic> login(BuildContext context, String account, String password,
+      String typeUSer) async {
     Map<String, String> queryParameters = {
       'wsdl': '',
       'method': 'validaLogin',
@@ -21,8 +21,23 @@ class LoginRest {
         Var.urlServerLogin, '/ws/WSServiciosIbero.cfc', queryParameters);
     debugPrint(uri.toString());
 
-    return _netUtil.get(context, uri).then((response) {
-      return response;
-    });
+    if (Var.devMode) {
+      return [
+        {
+          "RESULTADO": "1",
+          "DESCRIPCION": "Acceso correcto",
+          "NOMBRE": "Fernando",
+          "APELLIDO_PATERNO": "ochoa",
+          "APELLIDO_MATERNO": "solache",
+          "FECHA_EXPIRA_INICIO": "",
+          "FECHA_EXPIRA_FIN": "",
+          "TOTAL_INTEGRANTES": ""
+        }
+      ];
+    } else {
+      return _netUtil.get(context, uri).then((response) {
+        return response;
+      });
+    }
   }
 }

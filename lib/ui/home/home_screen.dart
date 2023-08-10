@@ -56,6 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 const PopupMenuDivider(),
                 PopUpMenuItem.createPopUpMenuItem(
                     'Actualizar', 0, Icons.update),
+                PopUpMenuItem.createPopUpMenuItem(
+                    'Cerrar sesión', 1, Icons.logout),
               ],
               onSelected: (item) =>
                   _homeService.selectedPopUpMenuItem(item, context),

@@ -46,8 +46,8 @@ android {
         applicationId "mx.ibero.activoFijo.activo_fijo"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion 33
-        versionCode 3
-        versionName '1.2.0'
+        versionCode 6
+        versionName '1.2.3'
     }
 
     buildTypes {

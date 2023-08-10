@@ -66,13 +66,16 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/icon_app.png',
-                    alignment: Alignment.topCenter,
-                    fit: BoxFit.scaleDown,
-                    height: 128,
+                  GestureDetector(
+                    onTap: () => service.showIdDevice(context),
+                    child: Image.asset(
+                      'assets/images/icon_app.png',
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.scaleDown,
+                      height: 128,
+                    ),
                   ),
-                  const Text('Control vehicular'),
+                  const Text('Activo fijo'),
                 ],
               ),
               const SizedBox(height: 25),

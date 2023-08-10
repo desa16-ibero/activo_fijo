@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../model/fixed_asset.dart';
 import '../rest/Fixed_asset_rest.dart';
 import '../ui/home/privacy_police_screen.dart';
+import '../utils/var.dart';
 import '../widgets/full_screen_dialog.dart';
 import 'fixed_asset_service.dart';
 
@@ -50,7 +51,27 @@ class HomeService with ChangeNotifier {
       case 0:
         getCatalog(context);
         break;
+      case 1:
+        CoolAlert.show(
+          width:
+              Platform.isWindows ? MediaQuery.of(context).size.width / 6 : null,
+          context: context,
+          barrierDismissible: false,
+          type: CoolAlertType.confirm,
+          text: 'Estas apunto de cerrar sesión.\n ¿Deseas continuar?',
+          title: 'Atención',
+          confirmBtnText: 'Continuar',
+          cancelBtnText: 'Cancelar',
+          backgroundColor: Colors.blue[900] as Color,
+          onConfirmBtnTap: () => _deleteUser(context),
+        );
+        break;
     }
+  }
+
+  _deleteUser(BuildContext context) {
+    Var.box.delete(CollectionsDB.user.name);
+    context.pushReplacement('/login');
   }
 
   getCatalog(BuildContext context) async {
